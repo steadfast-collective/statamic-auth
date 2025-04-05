@@ -1,0 +1,141 @@
+<form 
+    class="max-w-lg w-full mx-auto p-6 lg:p-8 rounded-lg border flex flex-col gap-4 items-start"
+    action="{{ route:auth.register.store }}"
+    method="POST"
+    novalidate
+>
+    <input type="hidden" name="_token" value="{{ csrf_token }}" />
+    
+    {{ partial:statamic-auth::components/error_summary }}
+
+    <h1 class="text-xl">Create an account</h1>
+
+    <div class="flex flex-col gap-2 w-full">
+        <label for="email" class="text-sm">Email</label>
+
+        {{ partial:statamic-auth::components/error 
+            id="email" 
+            error="{get_error:email}"
+        }}
+
+        <input 
+            class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+            id="email" 
+            name="email" 
+            type="text" 
+            placeholder="Enter your email" 
+            autocomplete="email"
+            {{ {get_error:email} ?= 'aria-describedby="error-email"' }}
+        >
+    </div>
+
+    {{ if separate_name_fields }}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <div class="flex flex-col gap-2 w-full">
+                <label for="first_name" class="text-sm">First Name</label>
+        
+                {{ partial:statamic-auth::components/error 
+                    id="first_name" 
+                    error="{get_error:first_name}"
+                }}
+        
+                <input 
+                    class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+                    id="first_name" 
+                    name="first_name" 
+                    type="text" 
+                    autocomplete="given-name"
+                    {{ {get_error:first_name} ?= 'aria-describedby="error-first_name"' }}
+                >
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label for="last_name" class="text-sm">Last Name</label>
+        
+                {{ partial:statamic-auth::components/error 
+                    id="last_name" 
+                    error="{get_error:last_name}"
+                }}
+        
+                <input 
+                    class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+                    id="last_name" 
+                    name="last_name" 
+                    type="text" 
+                    autocomplete="family-name"
+                    {{ {get_error:last_name} ?= 'aria-describedby="error-last_name"' }}
+                >
+            </div>
+        </div>
+    {{ else }}
+        <div class="flex flex-col gap-2 w-full">
+            <label for="name" class="text-sm">Name</label>
+
+            {{ partial:statamic-auth::components/error 
+                id="name" 
+                error="{get_error:name}"
+            }}
+
+            <input 
+                class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+                id="name" 
+                name="name" 
+                type="text" 
+                autocomplete="family-name"
+                {{ {get_error:name} ?= 'aria-describedby="error-name"' }}
+            >
+        </div>
+    {{ /if }}
+
+    <div class="flex flex-col gap-2 w-full">
+        <label for="password" class="text-sm">Password</label>
+
+        {{ partial:statamic-auth::components/error 
+            id="password" 
+            error="{get_error:password}"
+        }}
+
+        <input 
+            class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+            id="password" 
+            name="password" 
+            type="password" 
+            autocomplete="password"
+            {{ {get_error:password} ?= 'aria-describedby="error-password"' }}
+        >
+
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+        {{ partial:statamic-auth::components/error 
+            id="terms" 
+            error="{get_error:terms}"
+        }}
+
+        {{ partial:statamic-auth::components/checkbox
+            handle="terms"
+            :old="old:terms"
+            no_js="true"
+            label="false"
+            class="text-left"
+            id="terms"
+            error="{get_error:terms}"
+            value="1"
+            :checked="old:terms"
+        }}
+            <div class="prose-sm prose-a:underline">
+                <p>I accept the terms elit tempor cillum dolor dolore sunt nostrud proident mollit qui.</p>
+            </div>
+        {{ /partial:statamic-auth::components/checkbox }}
+    </div>
+
+    <button class="w-max bg-primary px-3 py-1.5 rounded-lg text-white hover:bg-primary">Register</button>
+</form>
+
+<div class="max-w-lg mx-auto p-6 lg:p-8 text-sm flex gap-2">
+    <p>Already have an account?</p>
+    <a 
+        href="{{ route:auth.login }}"
+        class="text-sm hover:underline"
+    >Login</a>
+</div>

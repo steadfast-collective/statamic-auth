@@ -1,0 +1,38 @@
+{
+    "name": "steadfast-collective/statamic-auth",
+    "autoload": {
+        "psr-4": {
+            "SteadfastCollective\\StatamicAuth\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SteadfastCollective\\StatamicAuth\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "statamic/cms": "^5.0",
+        "laravel/socialite": "^5.19"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Statamic Auth",
+            "description": "Statamic Auth addon"
+        },
+        "laravel": {
+            "providers": [
+                "SteadfastCollective\\StatamicAuth\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

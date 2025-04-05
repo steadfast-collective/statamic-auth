@@ -1,0 +1,75 @@
+<form 
+    class="max-w-lg w-full mx-auto p-6 lg:p-8 rounded-lg border flex flex-col gap-4 items-start"
+    action="{{ route:auth.login.store }}"
+    method="POST"
+    novalidate
+>
+    <input type="hidden" name="_token" value="{{ csrf_token }}" />
+    
+    {{ partial:statamic-auth::components/error_summary }}
+
+    <h1 class="text-xl">Login</h1>
+
+    <div class="flex flex-col gap-2 w-full">
+        <label for="email" class="text-sm">Email</label>
+
+        {{ partial:statamic-auth::components/error 
+            id="email" 
+            error="{get_error:email}"
+        }}
+
+        <input 
+            class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+            id="email" 
+            name="email" 
+            type="text" 
+            placeholder="Enter your email" 
+            autocomplete="email"
+            {{ {get_error:email} ?= 'aria-describedby="error-email"' }}
+        >
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+        <label for="password" class="text-sm">Password</label>
+
+        {{ partial:statamic-auth::components/error 
+            id="password" 
+            error="{get_error:password}"
+        }}
+
+        <input 
+            class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+            id="password" 
+            name="password" 
+            type="password" 
+            autocomplete="password"
+            {{ {get_error:password} ?= 'aria-describedby="error-password"' }}
+        >
+
+    </div>
+
+    {{ partial:statamic-auth::components/checkbox 
+        handle="remember"
+        value="false"
+        label="Remember me"
+        :old="old:remember"
+    }}
+
+    <div class="flex justify-between w-full items-center">
+        <button class="w-max bg-primary px-3 py-1.5 rounded-lg text-white hover:bg-primary">Submit</button>
+        <a 
+            href="{{ route:auth.password.request }}"
+            class="text-sm"
+        >Forgotten password</a>
+    </div>
+
+    {{ if config:services:google }}
+    <a 
+        href="{{ route:auth.google.redirect }}"
+        class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
+    >
+        Login with Google
+    </a>
+    {{ /if }}
+</form>
+
