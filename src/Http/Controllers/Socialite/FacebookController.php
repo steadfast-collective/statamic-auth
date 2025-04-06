@@ -8,30 +8,31 @@ use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 use SteadfastCollective\StatamicAuth\Helpers\CreateUser;
 
-class GoogleController extends SocialiteController
+class FacebookController extends SocialiteController
 {
-    protected $driver = "google";
+    protected $driver = "facebook";
 
     public function callback(): RedirectResponse
     {
-        $googleUser = Socialite::driver($this->driver)->user();
-
-        $user = User::where('email', $googleUser->getEmail())
+        $oathUser = Socialite::driver($this->driver)->user();
+        
+        $user = User::where('email', $oathUser->getEmail())
             ->first();
 
         if(!$user) {
             if(User::hasSeparateNameFields()) {
+                $names = CreateUser::splitName($oathUser->getName());
+
                 $user = CreateUser::create(
-                    email: $googleUser->getEmail(),
+                    ...$names,
+                    email: $oathUser->getEmail(),
                     password: Str::random(24),
-                    first_name: $googleUser->user['given_name'],
-                    last_name: $googleUser->user['family_name']
                 );
             } else {
                 $user = CreateUser::create(
-                    email: $googleUser->getEmail(),
+                    email: $oathUser->getEmail(),
                     password: Str::random(24),
-                    name: $googleUser->getName()
+                    name: $oathUser->getName()
                 );
             }
         }
@@ -39,4 +40,6 @@ class GoogleController extends SocialiteController
         return $this->login($user);
 
     }
+
+    
 }

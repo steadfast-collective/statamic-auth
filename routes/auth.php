@@ -6,7 +6,9 @@ use SteadfastCollective\StatamicAuth\Http\Controllers\LoginController;
 use SteadfastCollective\StatamicAuth\Http\Middleware\UserIsNotLoggedIn;
 use SteadfastCollective\StatamicAuth\Http\Controllers\PasswordController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\RegisterController;
+use SteadfastCollective\StatamicAuth\Http\Controllers\Socialite\GithubController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\Socialite\GoogleController;
+use SteadfastCollective\StatamicAuth\Http\Controllers\Socialite\FacebookController;
 
 Route::group([
     'as' => 'auth.',
@@ -43,13 +45,35 @@ Route::group([
         }
 
         // Socialite - Google
-        if(config('services.google')) {
+        if(config('services.google.client_id')) {
             Route::group([
                 'prefix' => 'google',
                 'as' => 'google.'
             ], function() {
                 Route::get('redirect', [GoogleController::class, 'redirect'])->name('redirect');
                 Route::get('callback', [GoogleController::class, 'callback'])->name('callback');
+            });
+        }
+        
+        // Socialite - Github
+        if(config('services.github.client_id')) {
+            Route::group([
+                'prefix' => 'github',
+                'as' => 'github.'
+            ], function() {
+                Route::get('redirect', [GithubController::class, 'redirect'])->name('redirect');
+                Route::get('callback', [GithubController::class, 'callback'])->name('callback');
+            });
+        }
+
+        // Socialite - Facebook
+        if(config('services.facebook.client_id')) {
+            Route::group([
+                'prefix' => 'facebook',
+                'as' => 'facebook.'
+            ], function() {
+                Route::get('redirect', [FacebookController::class, 'redirect'])->name('redirect');
+                Route::get('callback', [FacebookController::class, 'callback'])->name('callback');
             });
         }
     });

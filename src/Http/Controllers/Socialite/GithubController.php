@@ -8,30 +8,31 @@ use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 use SteadfastCollective\StatamicAuth\Helpers\CreateUser;
 
-class GoogleController extends SocialiteController
+class GithubController extends SocialiteController
 {
-    protected $driver = "google";
+    protected $driver = "github";
 
     public function callback(): RedirectResponse
     {
-        $googleUser = Socialite::driver($this->driver)->user();
-
-        $user = User::where('email', $googleUser->getEmail())
+        $githubUser = Socialite::driver($this->driver)->user();
+        
+        $user = User::where('email', $githubUser->getEmail())
             ->first();
 
         if(!$user) {
             if(User::hasSeparateNameFields()) {
+                $names = CreateUser::splitName($githubUser->getName());
+
                 $user = CreateUser::create(
-                    email: $googleUser->getEmail(),
+                    ...$names,
+                    email: $githubUser->getEmail(),
                     password: Str::random(24),
-                    first_name: $googleUser->user['given_name'],
-                    last_name: $googleUser->user['family_name']
                 );
             } else {
                 $user = CreateUser::create(
-                    email: $googleUser->getEmail(),
+                    email: $githubUser->getEmail(),
                     password: Str::random(24),
-                    name: $googleUser->getName()
+                    name: $githubUser->getName()
                 );
             }
         }
@@ -39,4 +40,6 @@ class GoogleController extends SocialiteController
         return $this->login($user);
 
     }
+
+    
 }

@@ -12,6 +12,11 @@ class ServiceProvider extends AddonServiceProvider
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'statamic-auth');
 
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'statamic-auth');
+
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/statamic-auth'),
+        ], 'statamic-auth-views');
     }
 
     private function initRoutes()

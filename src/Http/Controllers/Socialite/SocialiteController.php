@@ -25,9 +25,7 @@ abstract class SocialiteController extends Controller
     {
         Auth::login($user);
         
-        $routeName = config('statamic-auth.redirect', 'auth.account.index');
-
-        return redirect()->route($routeName);
+        return redirect(config('statamic-auth.redirect'));
     }
 
     abstract public function callback(): RedirectResponse;

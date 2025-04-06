@@ -63,13 +63,40 @@
         >Forgotten password</a>
     </div>
 
-    {{ if config:services:google }}
-    <a 
-        href="{{ route:auth.google.redirect }}"
-        class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
-    >
-        Login with Google
-    </a>
+    {{ if config:services:google.client_id }}
+        <a 
+            href="{{ route:auth.google.redirect }}"
+            class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
+        >
+            Login with Google
+        </a>
+    {{ /if }}
+
+    {{ if config:services:github.client_id }}
+        <a 
+            href="{{ route:auth.github.redirect }}"
+            class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
+        >
+            Login with Github
+        </a>
+    {{ /if }}
+
+    {{ if config:services:facebook.client_id }}
+        <a 
+            href="{{ route:auth.facebook.redirect }}"
+            class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
+        >
+            Login with Facebook
+        </a>
+    {{ /if }}
+
+    {{ if config:services:linkedin-openid.client_id }}
+        <a 
+            href="{{ route:auth.linkedin.redirect }}"
+            class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
+        >
+            Login with linkedin
+        </a>
     {{ /if }}
 </form>
 
