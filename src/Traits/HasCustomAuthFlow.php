@@ -17,11 +17,14 @@ trait HasCustomAuthFlow
         );
     }
 
-    public function hasAnyCpRole(): bool
+    public function hasAnyCpRole(): Attribute
     {
-        $cpRoles = config('statamic-auth.cp_roles', []);
-
-        return !empty($cpRoles) && !empty(array_intersect($this->statamic->roles, $cpRoles));
+        return Attribute::make(
+            get: function() {
+                $cpRoles = config('statamic-auth.cp_roles', []);
+                return !empty($cpRoles) && !empty(array_intersect($this->statamic->roles, $cpRoles));
+            }
+        );
     }
 
     /**

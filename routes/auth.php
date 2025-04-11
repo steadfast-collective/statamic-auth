@@ -6,6 +6,9 @@ use SteadfastCollective\StatamicAuth\Http\Controllers\LoginController;
 use SteadfastCollective\StatamicAuth\Http\Middleware\UserIsNotLoggedIn;
 use SteadfastCollective\StatamicAuth\Http\Controllers\PasswordController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\RegisterController;
+use SteadfastCollective\StatamicAuth\Http\Controllers\Account\AccountController;
+use SteadfastCollective\StatamicAuth\Http\Controllers\Account\DetailsController;
+use SteadfastCollective\StatamicAuth\Http\Controllers\Account\PasswordController as AccountPasswordController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\Socialite\GithubController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\Socialite\GoogleController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\Socialite\FacebookController;
@@ -80,13 +83,17 @@ Route::group([
     
     Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 
-
     if(config('statamic-auth.account.enabled', true)) {
         Route::group([
             'as' => 'account.',
             'prefix' => config('statamic-auth.account.prefix', 'my-account'),
+            'middleware' => [
+                'auth'
+            ]
         ], function() {
-
+            Route::get('/', AccountController::class)->name('index');
+            Route::patch('update-details', [DetailsController::class, 'update'])->name('details.update');
+            Route::patch('update-password', [AccountPasswordController::class, 'update'])->name('password.update');
         });
     }
 });

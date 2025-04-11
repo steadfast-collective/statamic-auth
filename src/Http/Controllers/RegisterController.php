@@ -8,6 +8,8 @@ use Statamic\Facades\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
+use SteadfastCollective\StatamicAuth\Events\UserRegistered;
+use SteadfastCollective\StatamicAuth\Helpers\CreateUser;
 use SteadfastCollective\StatamicAuth\Http\Requests\RegisterRequest;
 use SteadfastCollective\StatamicAuth\Http\Controllers\AuthController;
 
@@ -26,7 +28,6 @@ class RegisterController extends AuthController
 
     public function store(RegisterRequest $request): RedirectResponse
     {
-        // Create user
         if(User::hasSeparateNameFields()) {
             $names = [
                 'first_name' => $request->first_name,
@@ -38,26 +39,13 @@ class RegisterController extends AuthController
             ];
         }
 
-        $user = User::create([
+        $user = CreateUser::create(
             ...$names,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+            email: $request->email,
+            password: $request->password
+        );
 
-        // Assign user (statamic) to default role/s
-        $defaultRoles = config('statamic-auth.default_roles', []);
-
-        if(!empty($defaultRoles)) {
-            foreach($defaultRoles as $roleHandle) {
-                $role = Role::find($roleHandle);
-
-                if($role) {
-                    $user->statamic->assignRole($role);
-                }
-            }
-
-            $user->statamic->save();
-        }
+        UserRegistered::dispatch($user);
 
         $credentials = $request->only('email', 'password');
 

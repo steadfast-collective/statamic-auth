@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
+use SteadfastCollective\StatamicAuth\Events\PasswordReset as StatamicAuthPasswordReset;
+use SteadfastCollective\StatamicAuth\Events\PasswordResetLinkSent;
 use SteadfastCollective\StatamicAuth\Http\Controllers\AuthController;
 use SteadfastCollective\StatamicAuth\Http\Requests\ResetPasswordRequest;
 use SteadfastCollective\StatamicAuth\Http\Requests\SendPasswordResetRequest;
@@ -33,6 +35,10 @@ class PasswordController extends AuthController
     public function sendResetLink(SendPasswordResetRequest $request)
     {
         $status = Password::sendResetLink($request->only('email'));
+        
+        if($status === Password::RESET_LINK_SENT) {
+            PasswordResetLinkSent::dispatch($request->email);
+        }
 
         return $status === Password::RESET_LINK_SENT
             ? redirect((route('auth.password.link-sent')))
@@ -100,6 +106,7 @@ class PasswordController extends AuthController
                 $user->save();
 
                 event(new PasswordReset($user));
+                StatamicAuthPasswordReset::dispatch($user);
             }
         );
 

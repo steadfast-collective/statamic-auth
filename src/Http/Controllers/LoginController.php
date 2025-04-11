@@ -6,6 +6,8 @@ use Statamic\Auth\User;
 use Statamic\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use SteadfastCollective\StatamicAuth\Events\UserLoggedIn;
+use SteadfastCollective\StatamicAuth\Events\UserLoggedOut;
 use SteadfastCollective\StatamicAuth\Http\Requests\LoginRequest;
 use SteadfastCollective\StatamicAuth\Http\Controllers\AuthController;
 
@@ -33,20 +35,26 @@ class LoginController extends AuthController
             ])->withInput();
         }
 
-        $user = User::current();
+        $user = Auth::user();
 
-        if ($user->is_super || $user->hasAnyCpRole()) {
+        if ($user->is_super || $user->has_any_cp_role) {
             $routeName = 'statamic.cp.dashboard';
         } else {
             $routeName = config('statamic-auth.redirect', 'auth.account.index');
         }
+
+        UserLoggedIn::dispatch($user);
 
         return redirect()->route($routeName);
     }
 
     public function destroy()
     {
+        $user = Auth::user();
+        
         Auth::logout();
+
+        UserLoggedOut::dispatch($user);
 
         return redirect()->route('auth.login')->with([
             'status' => __('statamic-auth::strings.logged_out')

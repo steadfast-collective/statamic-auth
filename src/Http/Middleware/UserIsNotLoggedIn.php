@@ -17,12 +17,12 @@ class UserIsNotLoggedIn
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-
+        
         if($user) {
-            if($user->is_super || $user->hasAnyCpRole()) {
+            if($user->is_super || $user->has_any_cp_role) {
                 $routeName = 'statamic.cp.dashboard';
             } else {
-                $routeName = config('auth.redirect');
+                $routeName = config('statamic-auth.redirect', 'auth.account.index');
             }
             
             return redirect()->route($routeName);

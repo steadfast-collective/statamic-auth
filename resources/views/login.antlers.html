@@ -8,10 +8,10 @@
     
     {{ partial:statamic-auth::components/error_summary }}
 
-    <h1 class="text-xl">Login</h1>
+    <h1 class="text-xl">{{ trans key="statamic-auth::strings.login.title" }}</h1>
 
     <div class="flex flex-col gap-2 w-full">
-        <label for="email" class="text-sm">Email</label>
+        <label for="email" class="text-sm">{{ trans key="statamic-auth::strings.fields.email.label" }}</label>
 
         {{ partial:statamic-auth::components/error 
             id="email" 
@@ -23,14 +23,14 @@
             id="email" 
             name="email" 
             type="text" 
-            placeholder="Enter your email" 
+            placeholder="{{ trans key="statamic-auth::strings.fields.email.placeholder" }}" 
             autocomplete="email"
             {{ {get_error:email} ?= 'aria-describedby="error-email"' }}
         >
     </div>
 
     <div class="flex flex-col gap-2 w-full">
-        <label for="password" class="text-sm">Password</label>
+        <label for="password" class="text-sm">{{ trans key="statamic-auth::strings.fields.password.label" }}</label>
 
         {{ partial:statamic-auth::components/error 
             id="password" 
@@ -51,7 +51,7 @@
     {{ partial:statamic-auth::components/checkbox 
         handle="remember"
         value="false"
-        label="Remember me"
+        label="{{ trans key='statamic-auth::strings.fields.remember_me.label' }}"
         :old="old:remember"
     }}
 
@@ -60,7 +60,7 @@
         <a 
             href="{{ route:auth.password.request }}"
             class="text-sm"
-        >Forgotten password</a>
+        >{{ trans key='statamic-auth::strings.login.forgot_password_link' }}</a>
     </div>
 
     {{ if config:services:google.client_id }}
@@ -68,7 +68,7 @@
             href="{{ route:auth.google.redirect }}"
             class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
         >
-            Login with Google
+            {{ trans key='statamic-auth::strings.login.socialite.google' }}
         </a>
     {{ /if }}
 
@@ -77,7 +77,7 @@
             href="{{ route:auth.github.redirect }}"
             class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
         >
-            Login with Github
+            {{ trans key='statamic-auth::strings.login.socialite.github' }}
         </a>
     {{ /if }}
 
@@ -86,16 +86,7 @@
             href="{{ route:auth.facebook.redirect }}"
             class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
         >
-            Login with Facebook
-        </a>
-    {{ /if }}
-
-    {{ if config:services:linkedin-openid.client_id }}
-        <a 
-            href="{{ route:auth.linkedin.redirect }}"
-            class="w-max bg-neutral px-3 py-1.5 rounded-lg text-white hover:bg-primary"
-        >
-            Login with linkedin
+            {{ trans key='statamic-auth::strings.login.socialite.facebook' }}
         </a>
     {{ /if }}
 </form>

@@ -23,8 +23,7 @@ return [
      * Redirect after register / login
      * Please use route name
      */
-    // 'redirect' => route("auth.account.index"),
-    'redirect' => '/',
+    'redirect' => "auth.account.index",
 
     /**
      * Users can register.

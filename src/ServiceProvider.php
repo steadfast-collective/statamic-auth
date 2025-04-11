@@ -3,6 +3,7 @@
 namespace SteadfastCollective\StatamicAuth;
 
 use Statamic\Providers\AddonServiceProvider;
+use SteadfastCollective\StatamicAuth\Passwords\PasswordBrokerManager;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -18,8 +19,7 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__.'/../resources/views' => resource_path('views/vendor/statamic-auth'),
         ], 'statamic-auth-views');
     }
-
-    private function initRoutes()
+    protected function initRoutes()
     {
         $publishedRoutesPath = base_path('routes/auth.php');
         

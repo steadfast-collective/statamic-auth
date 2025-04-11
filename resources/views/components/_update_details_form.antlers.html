@@ -1,0 +1,110 @@
+<form 
+    class="p-6 lg:p-8 rounded-lg border flex flex-col gap-4 items-start"
+    action="{{ route:auth.account.details.update}}"
+    method="POST"
+    novalidate
+>
+    <input type="hidden" name="_token" value="{{ csrf_token }}" />
+    {{ partial:statamic-auth::method method="PATCH" }}
+
+    <h1 class="text-xl">{{ trans key="statamic-auth::strings.account.details.title" }}</h1>
+
+    <div class="flex flex-col gap-2 w-full">
+        <label for="email" class="text-sm">{{ trans key="statamic-auth::strings.fields.email" }}</label>
+
+        {{ partial:statamic-auth::components/error 
+            id="email" 
+            error="{get_error:email}"
+        }}
+
+        <input 
+            class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+            id="email" 
+            name="email" 
+            type="text" 
+            placeholder="Enter your email" 
+            {{ if old:email }}
+                {{ old:email ?= 'value="{old:email}"' }}
+            {{ else }}
+                {{ current_user:email ?= 'value="{current_user:email}"' }}
+            {{ /if }}
+            autocomplete="email"
+            {{ {get_error:email} ?= 'aria-describedby="error-email"' }}
+        >
+    </div>
+
+    {{ if separate_name_fields }}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <div class="flex flex-col gap-2 w-full">
+                <label for="first_name" class="text-sm">{{ trans key="statamic-auth::strings.fields.first_name" }}</label>
+        
+                {{ partial:statamic-auth::components/error 
+                    id="first_name" 
+                    error="{get_error:first_name}"
+                }}
+        
+                <input 
+                    class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+                    id="first_name" 
+                    name="first_name" 
+                    type="text" 
+                    autocomplete="given-name"
+                    {{ if old:first_name or old:first_name === '' }}
+                        value="{{ old:first_name }}"
+                    {{ elseif current_user:first_name }}
+                        value="{{ current_user:first_name }}"
+                    {{ /if }}
+                    {{ {get_error:first_name} ?= 'aria-describedby="error-first_name"' }}
+                >
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label for="last_name" class="text-sm">{{ trans key="statamic-auth::strings.fields.last_name" }}</label>
+        
+                {{ partial:statamic-auth::components/error 
+                    id="last_name" 
+                    error="{get_error:last_name}"
+                }}
+        
+                <input 
+                    class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+                    id="last_name" 
+                    name="last_name" 
+                    type="text" 
+                    {{ if old:last_name or old:last_name === '' }}
+                        value="{{ old:last_name }}"
+                    {{ elseif current_user:last_name }}
+                        value="{{ current_user:last_name }}"
+                    {{ /if }}
+                    autocomplete="family-name"
+                    {{ {get_error:last_name} ?= 'aria-describedby="error-last_name"' }}
+                >
+            </div>
+        </div>
+    {{ else }}
+        <div class="flex flex-col gap-2 w-full">
+            <label for="name" class="text-sm">{{ trans key="statamic-auth::strings.fields.name" }}</label>
+
+            {{ partial:statamic-auth::components/error 
+                id="name" 
+                error="{get_error:name}"
+            }}
+
+            <input 
+                class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:email} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+                id="name" 
+                name="name" 
+                type="text"
+                {{ if old:name or old:name === '' }}
+                    value="{{ old:name }}"
+                {{ elseif current_user:name }}
+                    value="{{ current_user:name }}"
+                {{ /if }}
+                autocomplete="name"
+                {{ {get_error:name} ?= 'aria-describedby="error-name"' }}
+            >
+        </div>
+    {{ /if }}
+
+    <button class="w-max bg-primary px-3 py-1.5 rounded-lg text-white hover:bg-primary">{{ trans key="statamic-auth::strings.account.details.button_label" }}</button>
+</form>
