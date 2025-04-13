@@ -7,7 +7,7 @@
     <input type="hidden" name="_token" value="{{ csrf_token }}" />
     {{ partial:statamic-auth::method method="PATCH" }}
 
-    <h1 class="text-xl">{{ trans key="statamic-auth::strings.account.details.title" }}</h1>
+    <h1 class="text-xl font-bold">{{ trans key="statamic-auth::strings.account.details.title" }}</h1>
 
     <div class="flex flex-col gap-2 w-full">
         <label for="email" class="text-sm">{{ trans key="statamic-auth::strings.fields.email" }}</label>
@@ -106,5 +106,5 @@
         </div>
     {{ /if }}
 
-    <button class="w-max bg-primary px-3 py-1.5 rounded-lg text-white hover:bg-primary">{{ trans key="statamic-auth::strings.account.details.button_label" }}</button>
+    <button class="w-max bg-primary px-3 py-1.5 rounded-lg text-white hover:bg-primary text-base">{{ trans key="statamic-auth::strings.account.details.button_label" }}</button>
 </form>

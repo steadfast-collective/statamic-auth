@@ -10,9 +10,35 @@
             </div>
         {{ /session }}
     {{ /if }}
+
+    {{ if {session:has key="error"} }}
+        {{ session }}
+            <div
+                role="status"
+                class="w-full p-4 border border-red-300 rounded-lg lg:p-6 bg-white"
+            >
+                {{ error }}
+            </div>
+        {{ /session }}
+    {{ /if }}
     
     {{ partial:statamic-auth::components/update_details_form }}
 
     {{ partial:statamic-auth::components/update_password_form }}
+    
+    {{ if config:statamic-auth:two_factor.enabled }}
+        {{ partial:statamic-auth::components/two_factor_widget }}
+    {{ /if }}
 
+    <div class="flex gap-4">
+        <form>
+            <input type="hidden" name="_token" value="{{ csrf_token }}">
+            <button class="w-max bg-red-600 px-3 py-1.5 rounded-lg text-white hover:bg-red-700 text-base">{{ trans key="statamic-auth::strings.account.delete_account.button" }}</button>
+        </form>
+
+        <form action="{{ route:auth.logout }}" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token }}">
+            <button class="w-max bg-gray-500 px-3 py-1.5 rounded-lg text-white hover:bg-gray-600 text-base">{{ trans key="statamic-auth::strings.log_out" }}</button>
+        </form>
+    </div>
 </div>

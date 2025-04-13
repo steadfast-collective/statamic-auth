@@ -1,0 +1,78 @@
+<form 
+    class="max-w-lg w-full mx-auto p-6 lg:p-8 rounded-lg border flex flex-col gap-4 items-start"
+    action="{{ route:auth.account.2fa.confirm.store }}"
+    method="POST"
+    novalidate
+>
+    <input type="hidden" name="_token" value="{{ csrf_token }}" />
+    
+    {{ partial:statamic-auth::components/error_summary }}
+
+    <div class="flex flex-col gap-1">
+        <h1 class="text-xl font-bold">{{ trans key="statamic-auth::strings.account.two_factor.confirm_page.title" }}</h1>
+        <p class="text-sm">{{ trans key="statamic-auth::strings.account.two_factor.confirm_page.description" }}</p>
+    </div>
+    
+    <div class="flex flex-col gap-2">
+        <p class="flex gap-2 items-center ">
+            <span class="inline-flex px-3 py-1 rounded-lg bg-gray-100 text-sm border border-gray-400 text-gray-800">
+                {{ trans key="statamic-auth::strings.account.two_factor.confirm_page.step_1.step" }}
+            </span>
+            <span class="font-bold">
+                {{ trans key="statamic-auth::strings.account.two_factor.confirm_page.step_1.title" }}
+            </span>
+        </p>
+        <p class="text-sm">
+            {{ trans key="statamic-auth::strings.account.two_factor.confirm_page.step_1.instructions" }}
+        </p>
+    </div>
+    
+    <div class="flex flex-col sm:flex-row items-center gap-3 w-full p-4 rounded-lg border">
+        <div class="w-full sm:w-1/2">
+            {{ qrCodeSvg }}
+        </div>
+
+        <div class="w-full sm:w-1/2 flex justify-center flex-col gap-2">
+            <p class="font-bold">{{ trans key="statamic-auth::strings.account.two_factor.confirm_page.setup_key_title" }}</p>
+            <p class="text-sm">{{ trans key="statamic-auth::strings.account.two_factor.confirm_page.setup_key_instructions" }}</p>
+            <div class="w-max px-3 py-1.5 rounded-lg bg-gray-100 text-sm border border-gray-400 font-mono">
+                {{ setupKey }}
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+        <p class="flex gap-2 items-center ">
+            <span class="inline-flex px-3 py-1 rounded-lg bg-gray-100 text-sm border border-gray-400 text-gray-800">
+                {{ trans key="statamic-auth::strings.account.two_factor.confirm_page.step_2.step" }}
+            </span>
+            <span class="font-bold">
+                {{ trans key="statamic-auth::strings.account.two_factor.confirm_page.step_2.title" }}
+            </span>
+        </p>
+
+        <div class="flex flex-col gap-2 w-full">
+            <label for="code" class="text-sm">{{ trans key="statamic-auth::strings.account.two_factor.confirm_page.step_2.instructions" }}</label>
+    
+            {{ partial:statamic-auth::components/error 
+                id="code" 
+                error="{get_error:code}"
+            }}
+    
+            <input 
+                class="w-full rounded caret-primary border-neutral focus:border-primary {{ {get_error:code} ?= 'border-red-600 focus:border-red-600 !outline-red-600/50' }}" 
+                id="code" 
+                name="code" 
+                type="text" 
+                autocomplete="code"
+                {{ {get_error:code} ?= 'aria-describedby="error-code"' }}
+            >
+        </div>
+    </div>
+
+
+    <div class="flex justify-between w-full items-center">
+        <button class="w-max bg-primary px-3 py-1.5 rounded-lg text-white hover:bg-primary text-base">{{ trans key="statamic-auth::strings.account.two_factor.confirm_page.activate_button" }}</button>
+    </div>
+</form>
+

@@ -35,7 +35,10 @@ return [
         ],
         'remember_me' => [
             'label' => "Remember Me"
-        ]
+        ],
+        'code' => [
+            'label' => "Enter verification code",
+        ],
     ],
     'login' => [
         'seo_title' => 'Login',
@@ -47,6 +50,7 @@ return [
             'facebook' => "Login with Facebook",
         ]
     ],
+    'log_out' => "Log out",
     'logged_out' => "Logged out",
     'credentials_incorrect' => "The provided credentials do not match our records.",
     'forgotten_password' => [
@@ -99,6 +103,42 @@ return [
             'incorrect' => "The :attribute is incorrect.",
             'must-not-match' => "The :attribute must not be the same as your current password.",
             'button_label' => "Update password"
+        ],
+        'two_factor' => [
+            'title' => "Two Factor Authentication",
+            'disabled' => "Two Factor authentication is not enabled.",
+            'enable_button' => "Enable",
+            'active' => "Two Factor authentication is enabled.",
+            'disable_button' => "Disable",
+            'confirm_page' => [
+                'title' => "Setup Authenticator App",
+                'seo_title' => "Activate 2FA",
+                'setup_key_title' => "Can't scan the QR code?",
+                'setup_key_instructions' => "Enter this code instead:",
+                'description' => "Each time you log in, in addition to your password, you'll use an authenticator app to generate a one-time code.",
+                'step_1' => [
+                    'step' => "Step 1",
+                    'title' => "Scan QR Code",
+                    'instructions' => "Scan the QR code below or manually enter the secret key into your authenticator app."
+                ],
+                'step_2' => [
+                    'step' => "Step 2",
+                    'title' => "Get Verification Code",
+                    'instructions' => "Enter the 6-digit code you see in your authenticator app."
+                ],
+                'activate_button' => "Activate",
+            ],
+            'activated_success' => "Two factor authentication has been activated successfully.",
+            'deactivated_success' => "Two factor authentication has been deactivated successfully.",
+            'recovery_codes_message' => "These are your recovery codes. Keep them somewhere safe! You'll need these if you lose access to your authenticator app. You won't see these again.",
+        ],
+        'delete_account' => [
+            'button' => 'Delete Account'
         ]
+    ],
+    'validation' => [
+        'invalid_code' => 'The provided code is invalid.',
+        'invalid_recovery_code' => 'The provided recovery code is invalid.',
+        'throttle' => 'Too many attempts. Please wait before retrying.',
     ]
 ];

@@ -27,7 +27,7 @@ class LoginController extends AuthController
     {
         $credentials = $request->only('email', 'password');
 
-        $remember = $request->has('remember');
+        $remember = $request->remember;
 
         if(! Auth::attempt($credentials, $remember)) {
             return back()->withErrors([
@@ -36,6 +36,19 @@ class LoginController extends AuthController
         }
 
         $user = Auth::user();
+
+        if(config('statamic-auth.two_factor.enabled', true) && $user->two_factor_enabled) {
+            Auth::logout();
+            
+            session([
+                'auth.2fa.user_id' => $user->id,
+                'auth.2fa.remember' => $remember,
+                'auth.2fa.intended_url' => redirect()->intended()->getTargetUrl(),
+            ]);
+
+            return redirect()->route('auth.2fa.challenge');
+
+        }
 
         if ($user->is_super || $user->has_any_cp_role) {
             $routeName = 'statamic.cp.dashboard';
@@ -57,7 +70,7 @@ class LoginController extends AuthController
         UserLoggedOut::dispatch($user);
 
         return redirect()->route('auth.login')->with([
-            'status' => __('statamic-auth::strings.logged_out')
+            'success' => __('statamic-auth::strings.logged_out')
         ]);
     }
 }

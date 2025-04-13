@@ -12,7 +12,10 @@
     },
     "require": {
         "statamic/cms": "^5.0",
-        "laravel/socialite": "^5.19"
+        "laravel/socialite": "^5.19",
+        "pragmarx/google2fa-laravel": "^2.3",
+        "pragmarx/recovery": "^0.2.1",
+        "bacon/bacon-qr-code": "^3.0"
     },
     "require-dev": {
         "orchestra/testbench": "^9.0"

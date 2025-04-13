@@ -1,3 +1,13 @@
+{{ if {session:has key="success"} }}
+    {{ session }}
+        <div
+            role="status"
+            class="max-w-lg mx-auto mb-4 w-full p-4 border border-green-300 rounded-lg lg:p-6 bg-white"
+        >
+            {{ success }}
+        </div>
+    {{ /session }}
+{{ /if }}
 <form 
     class="max-w-lg w-full mx-auto p-6 lg:p-8 rounded-lg border flex flex-col gap-4 items-start"
     action="{{ route:auth.login.store }}"
@@ -5,7 +15,7 @@
     novalidate
 >
     <input type="hidden" name="_token" value="{{ csrf_token }}" />
-    
+
     {{ partial:statamic-auth::components/error_summary }}
 
     <h1 class="text-xl">{{ trans key="statamic-auth::strings.login.title" }}</h1>
@@ -26,6 +36,7 @@
             placeholder="{{ trans key="statamic-auth::strings.fields.email.placeholder" }}" 
             autocomplete="email"
             {{ {get_error:email} ?= 'aria-describedby="error-email"' }}
+            {{ {old:email} ?= 'value="{old:email}"'}}
         >
     </div>
 
@@ -56,7 +67,7 @@
     }}
 
     <div class="flex justify-between w-full items-center">
-        <button class="w-max bg-primary px-3 py-1.5 rounded-lg text-white hover:bg-primary">Submit</button>
+        <button class="w-max bg-primary px-3 py-1.5 rounded-lg text-white hover:bg-primary text-base">Submit</button>
         <a 
             href="{{ route:auth.password.request }}"
             class="text-sm"

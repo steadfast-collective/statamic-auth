@@ -44,5 +44,12 @@ return [
         'layout' => 'layout',
         'users_can_delete_account' => true,
         'users_can_update_password' => true,
-    ]
+    ],
+
+    /**
+     * Two Factor authentication
+     */
+    'two_factor' => [
+        'enabled' => true,
+    ],
 ];

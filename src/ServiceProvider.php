@@ -2,8 +2,8 @@
 
 namespace SteadfastCollective\StatamicAuth;
 
+use Statamic\Statamic;
 use Statamic\Providers\AddonServiceProvider;
-use SteadfastCollective\StatamicAuth\Passwords\PasswordBrokerManager;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -18,6 +18,17 @@ class ServiceProvider extends AddonServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/statamic-auth'),
         ], 'statamic-auth-views');
+
+        $this->publishesMigrations([
+            __DIR__.'/../database/migrations' => database_path('migrations'),
+        ], 'statamic-auth-migrations');
+
+        Statamic::afterInstalled(function ($command) {
+            $command->call('vendor:publish', [
+                '--provider' => 'PragmaRX\Google2FALaravel\ServiceProvider'
+            ]);
+        });
+    
     }
     protected function initRoutes()
     {
