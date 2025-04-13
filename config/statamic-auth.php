@@ -50,6 +50,6 @@ return [
      * Two Factor authentication
      */
     'two_factor' => [
-        'enabled' => true,
+        'enabled' => false,
     ],
 ];
