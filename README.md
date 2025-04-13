@@ -14,12 +14,12 @@ Out-of-the-box, this addon provides:
 
   
   ## Table of Contents
- - [Installation](#Installation)
- - [Configuration](#Configuration)
- - [Views](#Views)
- - [Socialite](#socialite)
- - [Two Factor Authentication](#two-factor-authentication)
- - [Events]()
+ - [🛠️ Installation](#Installation)
+ - [⚙️ Configuration](#Configuration)
+ - [👀 Views](#Views)
+ - [🍸 Socialite](#socialite)
+ - [📱 Two Factor Authentication](#two-factor-authentication)
+ - [📅 Events](#events)
   
 
 
