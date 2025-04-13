@@ -40,10 +40,12 @@ class LoginController extends AuthController
         if(config('statamic-auth.two_factor.enabled', true) && $user->two_factor_enabled) {
             Auth::logout();
             
+            $redirectUrl = redirect()->intended()->getTargetUrl();
+            
             session([
                 'auth.2fa.user_id' => $user->id,
                 'auth.2fa.remember' => $remember,
-                'auth.2fa.intended_url' => redirect()->intended()->getTargetUrl(),
+                'auth.2fa.intended_url' => $redirectUrl != config('app.url') ? redirect()->intended()->getTargetUrl() : route(config('statamic-auth.redirect', 'auth.account.index')),
             ]);
 
             return redirect()->route('auth.2fa.challenge');

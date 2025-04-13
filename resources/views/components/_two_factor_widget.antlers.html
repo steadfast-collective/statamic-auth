@@ -50,8 +50,8 @@
                 
                 <p>{{ trans 
                     key="statamic-auth::strings.account.two_factor.recovery_codes.notice" 
-                    :date="{current_user:two_factor_recovery_code_last_used format='d F Y'}"
-                    :time="{current_user:two_factor_recovery_code_last_used format='h:ia'}" 
+                    date="{{ current_user:two_factor_recovery_code_last_used format='d F Y' }}"
+                    time="{{ current_user:two_factor_recovery_code_last_used format='H:i' }}" 
                 }}</p>
             </div>
         {{ /if }}
