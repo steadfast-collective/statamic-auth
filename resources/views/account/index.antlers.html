@@ -24,17 +24,22 @@
     
     {{ partial:statamic-auth::components/update_details_form }}
 
-    {{ partial:statamic-auth::components/update_password_form }}
+    {{ if config:statamic-auth.account.users_can_update_password }}
+        {{ partial:statamic-auth::components/update_password_form }}
+    {{ /if }}
     
     {{ if config:statamic-auth:two_factor.enabled }}
         {{ partial:statamic-auth::components/two_factor_widget }}
     {{ /if }}
-
+        
     <div class="flex gap-4">
-        <form>
-            <input type="hidden" name="_token" value="{{ csrf_token }}">
-            <button class="w-max bg-red-600 px-3 py-1.5 rounded-lg text-white hover:bg-red-700 text-base">{{ trans key="statamic-auth::strings.account.delete_account.button" }}</button>
-        </form>
+        {{ if config:statamic-auth.account.users_can_delete_account }}
+            <form action="{{ route:auth.account.delete }}" method="POST">
+                {{ partial:statamic-auth::method method="DELETE" }}
+                <input type="hidden" name="_token" value="{{ csrf_token }}">
+                <button class="w-max bg-red-600 px-3 py-1.5 rounded-lg text-white hover:bg-red-700 text-base">{{ trans key="statamic-auth::strings.account.delete_account.button" }}</button>
+            </form>
+        {{ /if }}
 
         <form action="{{ route:auth.logout }}" method="POST">
             <input type="hidden" name="_token" value="{{ csrf_token }}">

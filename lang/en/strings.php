@@ -110,6 +110,19 @@ return [
             'enable_button' => "Enable",
             'active' => "Two Factor authentication is enabled.",
             'disable_button' => "Disable",
+            'description' => "Protect your account with additional security by enabling two-factor authentication (2FA). You'll be required to enter both your password and an authentication code to sign in.",
+            'auth_methods' => "Authentication Methods",
+            'auth_app' => [
+                'title' => "Authenticator App",
+                'description' =>  "Set up an authenticator app to receive verification codes from the authenticator app on your mobile device.",
+            ],
+            'recovery_codes' => [
+                'title' => "Recovery Codes",
+                'unused' => ":count Unused code|:count Unused Codes",
+                'reset' => "Reset Codes",
+                'notice' => "Latest use of recovery codes: :date at :time. If this wasn't you, use the above button to generate new codes.",
+                'save_prompt' => "These are your recovery codes. Keep them somewhere safe! You'll need these if you lose access to your authenticator app. You won't see these again."
+            ],
             'confirm_page' => [
                 'title' => "Setup Authenticator App",
                 'seo_title' => "Activate 2FA",
@@ -130,10 +143,31 @@ return [
             ],
             'activated_success' => "Two factor authentication has been activated successfully.",
             'deactivated_success' => "Two factor authentication has been deactivated successfully.",
-            'recovery_codes_message' => "These are your recovery codes. Keep them somewhere safe! You'll need these if you lose access to your authenticator app. You won't see these again.",
+            'challenge' => [
+                'title' => 'Two Factor Authentication',
+                'seo_title' => 'Verify your identity',
+                'code' => [
+                    'label' => "Please enter the verification code from your authenticator app to continue.",
+                    'placeholder' => "Enter 6-digit code"
+                ],
+                'other_methods' => [
+                    'prompt' => "Having trouble?",
+                    'button' => "See other methods",
+                    'title' => "Choose a method",
+                    'description' => "Select a verification method to login to your account.",
+                    'back_to_primary' => "Back To Primary Method",
+                    'use_recovery' => "Use A Recovery Code"
+                ],
+                'recovery_code' => [
+                    'label' => "Enter one of your recovery codes below.",
+                    'placeholder' => "Enter recovery code",
+                ],
+                'verify_code' => "Verify",
+            ]
         ],
         'delete_account' => [
-            'button' => 'Delete Account'
+            'button' => 'Delete Account',
+            'success' => 'Account deleted successfully.'
         ]
     ],
     'validation' => [

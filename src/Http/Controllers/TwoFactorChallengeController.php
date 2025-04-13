@@ -23,7 +23,7 @@ class TwoFactorChallengeController extends AuthController
             ->layout($this->layout)
             ->template('statamic-auth::2fa.challenge')
             ->with([
-                'title' => __('statamic-auth::strings.account.seo_title'),
+                'title' => __('statamic-auth::strings.account.two_factor.challenge.seo_title'),
             ]);
     }
 

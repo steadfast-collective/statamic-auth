@@ -7,6 +7,7 @@ use SteadfastCollective\StatamicAuth\Http\Middleware\UserIsNotLoggedIn;
 use SteadfastCollective\StatamicAuth\Http\Controllers\PasswordController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\RegisterController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\Account\AccountController;
+use SteadfastCollective\StatamicAuth\Http\Controllers\Account\DeleteAccountController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\Account\DetailsController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\Socialite\GithubController;
 use SteadfastCollective\StatamicAuth\Http\Controllers\Socialite\GoogleController;
@@ -97,7 +98,14 @@ Route::group([
         ], function() {
             Route::get('/', AccountController::class)->name('index');
             Route::patch('update-details', [DetailsController::class, 'update'])->name('details.update');
-            Route::patch('update-password', [AccountPasswordController::class, 'update'])->name('password.update');
+            
+            if(config('statamic-auth.account.users_can_update_password', true)) {
+                Route::patch('update-password', [AccountPasswordController::class, 'update'])->name('password.update');
+            }
+
+            if(config('statamic-auth.account.users_can_delete_account', true)) {
+                Route::delete('delete', DeleteAccountController::class)->name('delete');
+            }
             
             if(config('statamic-auth.two_factor.enabled', true)) {
                 Route::group([
