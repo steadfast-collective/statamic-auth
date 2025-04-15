@@ -154,6 +154,15 @@ To setup:
 1. Run `php artisan vendor:publish --tag="statamic-auth-migrations"`
 2. Run `php artisan migrate`
 3. Ensure `two_factor.enabled` and `account.enabled` are both set to `true` (so the user can manage the setup).
+4. Add the `UsesTwoFactor` trait to your user Model:
+```
+use SteadfastCollective\StatamicAuth\Traits\UsesTwoFactor;
+
+class User extends Authenticatable
+{
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use UsesTwoFactor;
+```
 
 There's not really much more to it. Views will be included when running the view publish command referenced in [Views](#views).
 
